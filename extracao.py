@@ -1,15 +1,9 @@
-import csv
 import json
 import os
 import time
 from datetime import datetime
 from random import random
-from sys import argv
-
-import pandas as pd
-import seaborn as sns
 import requests
-import matplotlib.pyplot as plt
 
 URL = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.4392/dados/ultimos/1?formato=json'
 
@@ -47,33 +41,3 @@ def gerar_csv():
         time.sleep(1)
 
     print("CSV gerado com 10 registros.")
-
-
-def gerar_grafico(nome_grafico):
-    df = pd.read_csv('./taxa-cdi.csv')
-
-    plt.figure(figsize=(10, 6))
-    grafico = sns.lineplot(x=df['hora'], y=df['taxa'])
-    grafico.set_xticklabels(labels=df['hora'], rotation=90)
-    grafico.set_title('Variação da Taxa CDI')
-    grafico.set_xlabel('Hora')
-    grafico.set_ylabel('Taxa')
-
-    plt.tight_layout()
-    grafico.get_figure().savefig(f"{nome_grafico}.png")
-    print(f"Gráfico salvo como {nome_grafico}.png")
-
-
-def main():
-    if len(argv) < 2:
-        print("Forneça o nome do gráfico como parâmetro.")
-        return
-
-    nome_grafico = argv[1]
-
-    gerar_csv()
-    gerar_grafico(nome_grafico)
-
-
-if __name__ == "__main__":
-    main()
